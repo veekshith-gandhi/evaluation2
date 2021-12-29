@@ -7,10 +7,13 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import { addProduct } from "../../../store/actions";
 import Typography from "@mui/material/Typography";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { showMsg } from "../../../store/actions/alertAction";
 
 export default function ProductCard({ item }) {
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+
   return (
     <Card sx={{ maxWidth: 345, margin: "2rem" }}>
       <CardMedia
@@ -26,6 +29,9 @@ export default function ProductCard({ item }) {
       </CardContent>
       <Button
         onClick={() => {
+          if (cart?.items?.some((cartitem) => cartitem.id === item.id)) {
+            return showMsg("this msg alredy exist")(dispatch);
+          }
           addProduct(item)(dispatch);
         }}
       >
