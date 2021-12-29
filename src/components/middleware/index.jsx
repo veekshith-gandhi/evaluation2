@@ -3,10 +3,19 @@ import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { useSelector } from "react-redux";
 
 export default function AlertMiddleware({ children }) {
   const [open, setOpen] = React.useState(false);
+  const alert = useSelector((state) => state.alert);
 
+  React.useEffect(() => {
+    if (alert.message) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [alert.message]);
   const handleClick = () => {
     setOpen(true);
   };
@@ -37,12 +46,12 @@ export default function AlertMiddleware({ children }) {
 
   return (
     <div>
-      <Button onClick={handleClick}>Open simple snackbar</Button>
+      {children}
       <Snackbar
         open={open}
-        autoHideDuration={6000}
+        autoHideDuration={2900}
         onClose={handleClose}
-        message="Note archived"
+        message={alert?.message}
         action={action}
       />
     </div>

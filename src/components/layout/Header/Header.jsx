@@ -6,9 +6,11 @@ import Typography from "@mui/material/Typography";
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useSelector } from "react-redux";
+import { shallowEqual } from "react-redux";
 
 export default function Header() {
-  const { cart } = useSelector((state) => state.cart);
+  const cart = useSelector((state) => state.cart, shallowEqual);
+  console.log(cart);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
